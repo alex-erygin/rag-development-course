@@ -1,0 +1,6 @@
+umap-learn
+scikit-learn
+matplotlib
+numpy==1.24.3
+chromadb
+sentence-transformers
