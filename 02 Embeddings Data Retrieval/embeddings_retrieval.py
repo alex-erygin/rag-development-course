@@ -19,7 +19,7 @@ import os
 KB_DIRECTORY = os.path.join(os.path.dirname(__file__), "KB")
 CHROMA_DB_PATH = "./chroma_db_embeddings"
 COLLECTION_NAME = "knowledge_base_embeddings"
-CHUNK_SIZE_TOKENS = 256
+CHUNK_SIZE_TOKENS = 128
 
 def load_text_files(directory: str) -> list:
     """Загрузка текстовых файлов из указанной директории"""
