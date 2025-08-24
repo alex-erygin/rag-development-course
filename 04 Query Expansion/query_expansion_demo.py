@@ -10,6 +10,7 @@ import os
 import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from openai import OpenAI
+from query_expansion_visualization import visualize_query_expansion
 
 # Конфигурационные параметры
 ORIGINAL_CHROMA_DB_PATH = "../02 Embeddings Data Retrieval/chroma_db_embeddings"
@@ -289,6 +290,18 @@ def main():
     
     # Сравнение результатов
     compare_results(basic_result, expanded_result)
+    
+    # Создание визуализаций
+    print(f"\n🎨 Создание визуализаций...")
+    try:
+        visualization_result = visualize_query_expansion(query)
+        if visualization_result:
+            print("✅ Визуализации успешно созданы!")
+        else:
+            print("⚠️ Не удалось создать визуализации")
+    except Exception as e:
+        print(f"⚠️ Ошибка при создании визуализаций: {e}")
+        print("💡 Убедитесь, что установлены все необходимые библиотеки (matplotlib, umap-learn)")
     
     print(f"\n🎉 Демонстрация завершена!")
     print("💡 Попробуйте изменить запрос в коде для экспериментов с другими вопросами")

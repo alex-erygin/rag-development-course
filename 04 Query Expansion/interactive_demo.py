@@ -10,6 +10,7 @@ import os
 import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from openai import OpenAI
+from query_expansion_visualization import visualize_query_expansion
 
 # Конфигурационные параметры
 ORIGINAL_CHROMA_DB_PATH = "../02 Embeddings Data Retrieval/chroma_db_embeddings"
@@ -122,7 +123,7 @@ def deduplicate_documents(all_documents, all_metadatas):
     
     return unique_documents, unique_metadatas
 
-def process_query(collection, query, show_details=True):
+def process_query(collection, query, show_details=True, create_visualization=False):
     """Обработка одного запроса с обоими методами"""
     print(f"\n{'='*80}")
     print(f"🔍 ОБРАБОТКА ЗАПРОСА: {query}")
@@ -281,7 +282,25 @@ def main():
                 if query:
                     show_details = input("Показать детали поиска? (y/n, по умолчанию y): ").strip().lower()
                     show_details = show_details != 'n'
-                    process_query(collection, query, show_details)
+                    create_viz = input("Создать визуализацию? (y/n, по умолчанию n): ").strip().lower()
+                    create_viz = create_viz == 'y'
+                    
+                    result = process_query(collection, query, show_details, create_viz)
+                    
+                    if create_viz and result:
+                        print(f"\n🎨 Создание визуализаций...")
+                        try:
+                            visualization_result = visualize_query_expansion(query)
+                            if visualization_result:
+                                print("✅ Визуализации успешно созданы!")
+                                print("💾 Файлы сохранены в текущей директории:")
+                                print("   • query_expansion_basic.png")
+                                print("   • query_expansion_expanded.png")
+                            else:
+                                print("⚠️ Не удалось создать визуализации")
+                        except Exception as e:
+                            print(f"⚠️ Ошибка при создании визуализаций: {e}")
+                            print("💡 Убедитесь, что установлены все необходимые библиотеки (matplotlib, umap-learn)")
                 else:
                     print("❌ Пустой запрос")
             
@@ -291,7 +310,25 @@ def main():
                 if query:
                     show_details = input("Показать детали поиска? (y/n, по умолчанию y): ").strip().lower()
                     show_details = show_details != 'n'
-                    process_query(collection, query, show_details)
+                    create_viz = input("Создать визуализацию? (y/n, по умолчанию n): ").strip().lower()
+                    create_viz = create_viz == 'y'
+                    
+                    result = process_query(collection, query, show_details, create_viz)
+                    
+                    if create_viz and result:
+                        print(f"\n🎨 Создание визуализаций...")
+                        try:
+                            visualization_result = visualize_query_expansion(query)
+                            if visualization_result:
+                                print("✅ Визуализации успешно созданы!")
+                                print("💾 Файлы сохранены в текущей директории:")
+                                print("   • query_expansion_basic.png")
+                                print("   • query_expansion_expanded.png")
+                            else:
+                                print("⚠️ Не удалось создать визуализации")
+                        except Exception as e:
+                            print(f"⚠️ Ошибка при создании визуализаций: {e}")
+                            print("💡 Убедитесь, что установлены все необходимые библиотеки (matplotlib, umap-learn)")
             
             elif choice == "3":
                 # Информация о БД
