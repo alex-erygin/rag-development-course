@@ -258,6 +258,9 @@ def search_and_visualize(collection, query: str, n_results: int = 5):
     # Получаем embedding для запроса
     model = SentenceTransformer('all-MiniLM-L6-v2')
     query_embedding = model.encode([query])[0]
+    print(f"Размерность массива embeddings запроса: {query_embedding.shape}")
+    
+    
     
     # Поиск ближайших документов
     results = collection.query(
@@ -279,7 +282,7 @@ def search_and_visualize(collection, query: str, n_results: int = 5):
     
     # Применяем UMAP для понижения размерности до 2D
     print("📐 Применение UMAP для визуализации...")
-    reducer = umap.UMAP(n_components=2, random_state=42)
+    reducer = umap.UMAP(n_components=2, random_state=0, transform_seed=0)
     embeddings_2d = reducer.fit_transform(embeddings_for_umap)
     
     # Создаем matplotlib визуализацию для всех точек
@@ -322,7 +325,7 @@ def search_and_visualize(collection, query: str, n_results: int = 5):
     
     return results
 
-def main():
+def main(query: str):
     """Основная функция скрипта"""
     print("📊 Демонстрация визуализации расстояний между embeddings")
     
@@ -332,8 +335,7 @@ def main():
         client, collection = connect_to_chromadb()
         print(f"✅ Подключено к коллекции: {COLLECTION_NAME}")
         
-        # Формирование запроса от пользователя
-        query = "Какова чистая прибыль Сбербанка в 2024 году?"
+
         print(f"\n❓ Запрос пользователя: {query}")
         
         # Поиск и визуализация
@@ -356,4 +358,8 @@ def main():
         print("Убедитесь, что ChromaDB существует и доступен")
 
 if __name__ == "__main__":
-    main()
+    # Формирование запроса от пользователя
+    # query = "Какова чистая прибыль Сбербанка в 2024 году?"
+    # query = "Какие планы у сбера по развитию искуственного интеллекта?"
+    query = "Победил бы Брюс Ли Майка Тайсона?"
+    main(query)
