@@ -1,0 +1,9 @@
+# Основные зависимости для модуля Query Expansion
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+openai>=1.0.0
+langchain>=0.1.0
+umap-learn>=0.5.0
+matplotlib>=3.5.0
+scikit-learn>=1.0.0
+numpy==1.24.3
