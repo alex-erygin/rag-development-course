@@ -1,0 +1,6 @@
+chromadb==0.4.22
+openai==1.55.3
+numpy==1.24.3
+sentence-transformers
+langchain
+pypdf
